@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "DS Monster";
+  src: url("./assets/dsmoster.ttf") format("truetype");
+}
+
+html {
+  font-family: "DS Monster", system-ui;
+}
