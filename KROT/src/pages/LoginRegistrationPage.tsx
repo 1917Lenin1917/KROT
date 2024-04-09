@@ -3,6 +3,7 @@ import backgroundImg from '@assets/TableBackground.png';
 import Window from "@components/Window.tsx";
 import {ReactNode, useState} from "react";
 import axios from 'axios';
+import {useNavigate} from "react-router-dom";
 
 function BaseForm({ children }: {children?: ReactNode}) {
 return (
@@ -37,14 +38,20 @@ return (
 }
 
 export function LoginRegistrationPage() {
+  const navigate = useNavigate()
     return (
         <div className={"flex justify-center "}>
             <Window w={1060} h={740.5} windowClasses={"mt-10 flex flex-wrap content-center justify-center"} backgroundImg={backgroundImg}>
                 <BaseForm>
-                    <button className={"z-10 border-black justify-self-center border-4 w-80 h-20 text-4xl bg-orange-100"}>Вход
+                    <button
+                      onClick={(e) => { e.preventDefault(); navigate('/login') }}
+                      className={"z-10 border-black justify-self-center border-4 w-80 h-20 text-4xl bg-orange-100"}>
+                      Вход
                     </button>
                     <button
-                      className={"z-10 border-black justify-self-center border-4 w-80 h-20 text-4xl bg-orange-100"}>Регистрация
+                      onClick={(e) => { e.preventDefault(); navigate('/registration') }}
+                      className={"z-10 border-black justify-self-center border-4 w-80 h-20 text-4xl bg-orange-100"}>
+                      Регистрация
                     </button>
                 </BaseForm>
             </Window>
@@ -56,6 +63,7 @@ export function LoginPage() {
   const [username, setUsername] = useState<string>("")
   const [password, setPassword] = useState<string>("")
 
+  const navigate = useNavigate()
   return (
       <div className={"flex justify-center "}>
          <Window w={1060} h={740.5} windowClasses={"mt-10 flex flex-wrap content-center justify-center"}
@@ -73,6 +81,8 @@ export function LoginPage() {
                     }, {method: "post"})
                     .then((resp) => {
                       console.log(resp)
+                      if (resp.status === 200)
+                          navigate('/home')
                     }).catch((err) => {
                       console.log(err)
                     })
@@ -88,6 +98,7 @@ export function RegistrationPage() {
   const [username, setUsername] = useState<string>("")
   const [gender, setGender] = useState<string>("М")
   const [password, setPassword] = useState<string>("")
+  const navigate = useNavigate()
 
   return (
       <div className={"flex justify-center "}>
@@ -112,6 +123,8 @@ export function RegistrationPage() {
                       }, {method: "post"})
                       .then((resp) => {
                         console.log(resp)
+                        if (resp.status === 200)
+                          navigate('/login')
                       }).catch((err) => {
                         console.log(err)
                       })
