@@ -46,6 +46,24 @@ app.post('/login', (req, res, next) => {
     })
 })
 
+app.post('/check_level_answer/:id', (req, res) => {
+    const answer = req.body.answer
+    const levelId = req.params.id
+
+    if (!answer) {
+        res.status(400).send('Не введен ответ')
+        return
+    }
+
+    if (levelId == 1) {
+        const correct = "Тут какой-то текст, связанный с сюжетом и загадкой" === answer
+        res.status(correct ? 200 : 400).send(correct ? "Верный ответ" : "Неверный ответ")
+    }
+    else {
+        res.status(400).send("Неверный ид уровня")
+    }
+})
+
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
 })

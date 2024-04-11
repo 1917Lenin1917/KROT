@@ -22,10 +22,12 @@ export default function HomePage() {
             </button>
           </Link>
 
-          <button className={"hover_size"}
+          <Link className={"hover_size"}
+                to={"/level"}
                   style={{gridArea: "4 / 44 / span 3 / span 3", backgroundImage: `url(${planetIconImg})`}}>
-
-          </button>
+            <button>
+            </button>
+          </Link>
           <button className={"hover_size"} style={{gridArea: "4 / 47 / span 3 / span 3", backgroundImage: `url(${computerIconImg})`}}>
 
           </button>
