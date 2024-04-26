@@ -3,7 +3,9 @@ import {LoginPage, LoginRegistrationPage, RegistrationPage} from "@pages/LoginRe
 import HomePage from "@pages/HomePage.tsx";
 import ExitModal from "@components/ExitModal.tsx";
 import LevelPage from "@pages/LevelPage.tsx";
-import LevelSelectPage from "@pages/LevelSelectPage.tsx";
+import {ChapterSelectFunction, ChapterSelectOutlet, LevelSelectFunction} from "@pages/LevelSelectPage.tsx";
+import {CaesarRender} from "./help/Cesar.tsx";
+import Help from "./help/help.tsx";
 
 export default function Router() {
   const location = useLocation()
@@ -17,9 +19,14 @@ export default function Router() {
           <Route path={"registration"} element={<RegistrationPage/>}></Route>
           <Route path={"home"} element={<HomePage/>}></Route>
           <Route path={"exit"} element={<ExitModal/>}></Route>
-          <Route path={"level"} element={<LevelSelectPage/>}></Route>
-          <Route path={"level/:id"} element={<LevelPage/>}></Route>
-
+          <Route path={"levels"} element={<ChapterSelectFunction/>}>
+            <Route index element={<ChapterSelectOutlet/>}/>
+            <Route path={":chapter"} element={<LevelSelectFunction/>}>
+              <Route path={":level"} element={<LevelPage/>}></Route>
+            </Route>
+          </Route>
+          <Route path={"help/"} element={<Help/>}></Route>
+          <Route path={"help/caesar/:qWord"} element={<CaesarRender/>}></Route>
         </Route>
       </Routes>
         {background && <Routes>

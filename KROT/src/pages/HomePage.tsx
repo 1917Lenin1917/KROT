@@ -23,7 +23,7 @@ export default function HomePage() {
           </Link>
 
           <Link className={"hover_size"}
-                to={"/level"}
+                to={"/levels"}
                   style={{gridArea: "4 / 44 / span 3 / span 3", backgroundImage: `url(${planetIconImg})`}}>
             <button>
             </button>
@@ -35,9 +35,10 @@ export default function HomePage() {
 
           </button>
 
-          <button className={"hover_size"} style={{gridArea: "32 / 4 / span 3 / span 3", backgroundImage: `url(${magnifierIconImg})`}}>
-
-          </button>
+          <Link to={"/help"} className={"hover_size"} style={{gridArea: "32 / 4 / span 3 / span 3", backgroundImage: `url(${magnifierIconImg})`}}>
+            <button>
+            </button>
+          </Link>
           <button className={"hover_size"} style={{gridArea: "32 / 50 / span 3 / span 3", backgroundImage: `url(${threadIconImg})`}}>
 
           </button>

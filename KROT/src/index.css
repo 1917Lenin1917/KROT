@@ -9,4 +9,6 @@
 
 html {
   font-family: "DS Monster", system-ui;
+  overflow-y: hidden;
+  background-color: antiquewhite;
 }
