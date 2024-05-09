@@ -30,8 +30,8 @@ app.post('/api/complete_tutorial', (req, res) => {
         res.status(200).send({
             user: {
                 username: user.username,
-                current_level: 0,
-                current_chapter: 0,
+                current_level: 1,
+                current_chapter: 1,
                 gender: user.gender,
                 first_login: 0
             }
@@ -128,16 +128,36 @@ app.listen(port, () => {
 })
 
 
-app.get('/api/create_logins', (req, res) => {
-    let str = ''
-    for (let i = 0; i < 100_000; i++) {
-        str += `('username${i}', 'М', 0, 0, 'password${i}'),`
-    }
-    console.log('123')
-    console.log(str)
-    db.run(`INSERT INTO users (username, gender, current_level, current_chapter, password) VALUES ${str.slice(0, str.length-1)}`, (err, row) => {
-        console.log(err, row)
+// app.get('/api/create_logins', (req, res) => {
+//     let str = ''
+//     for (let i = 0; i < 100_000; i++) {
+//         str += `('username${i}', 'М', 0, 0, 'password${i}'),`
+//     }
+//     console.log('123')
+//     console.log(str)
+//     db.run(`INSERT INTO users (username, gender, current_level, current_chapter, password) VALUES ${str.slice(0, str.length-1)}`, (err, row) => {
+//         console.log(err, row)
+//     })
+//     console.log('456')
+//     res.status(200).send()
+// })
+
+app.post('/api/current_user', (req, res) => {
+    const token = req.body.token
+    db.all('SELECT id, username, password, current_level, current_chapter, gender, first_login FROM users', [], (err, rows) => {
+        const user = rows.find(row => {
+            const hash = createHash('sha256')
+            return token === hash.update(row.username + row.password).digest('hex')
+        })
+        console.log(user)
+        res.status(200).send({
+            user: {
+                username: user.username,
+                current_level: user.current_level,
+                current_chapter: user.current_chapter,
+                gender: user.gender,
+                first_login: user.first_login
+            }
+        })
     })
-    console.log('456')
-    res.status(200).send()
 })
