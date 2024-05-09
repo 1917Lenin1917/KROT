@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const {createHash} = require("node:crypto");
 const sqlite3 = require('sqlite3').verbose()
-const db = new sqlite3.Database('db.sqlite3')
+const db = new sqlite3.Database('database/db.sqlite3')
 
 
 const app = express()
@@ -124,6 +124,9 @@ app.post('/api/check_level_answer/:id', (req, res) => {
                 const a3 = answer['a3']
                 res.status(200).send({'a1': a1.toUpperCase() === 'ВЫСЛАННЫЕВСССР', 'a2': a2.toUpperCase() === 'НАХОДЯЩИЕСЯНАСЛУЖБЕВАНГЛИИ', 'a3': a3.toUpperCase() === 'ПРОПАЛАСВЯЗЬСАГЕНТОМ'})
                 break
+            }
+            default: {
+                res.status(400).send('default')
             }
         }
     } catch (e) {

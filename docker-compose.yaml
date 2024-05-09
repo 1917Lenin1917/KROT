@@ -17,6 +17,10 @@ services:
       drf_tickets_default:
         aliases:
           - krotbackend
+    volumes:
+      - database:/app/database
 networks:
   drf_tickets_default:
     external: true
+volumes:
+  database: null
