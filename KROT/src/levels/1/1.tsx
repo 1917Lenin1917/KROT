@@ -19,7 +19,7 @@ export default function Level() {
 
   useEffect(() => {
     console.log(a1Debounce, a2Debounce)
-    axios.post('http://localhost:8000/check_level_answer/1', {
+    axios.post('http://krot-game.ru/api/check_level_answer/1', {
       token: localStorage.getItem('token')!,
       answer: {
         a1: a1Debounce,

@@ -43,7 +43,7 @@ function StepTemplate({step, setStep, children}: {step: number, setStep: Dispatc
           </button> : null}
         {step === 10 ?
           <button className={"border border-black hover_size z-10 bg-orange-200"} onClick={() => {
-            axios.post('http://localhost:8000/complete_tutorial', {
+            axios.post('http://krot-game.ru/api/complete_tutorial', {
               token: localStorage.getItem('token')
             }).then((resp) => {
               localStorage.setItem('user', JSON.stringify(resp.data.user))

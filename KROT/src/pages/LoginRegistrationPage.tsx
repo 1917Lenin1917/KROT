@@ -92,7 +92,7 @@ export function LoginPage() {
                    e.currentTarget.form!.reportValidity()
                    return
                  }
-                 axios.post('http://localhost:8000/login', {
+                 axios.post('http://krot-game.ru/api/login', {
                    username: username,
                    password: password,
                  }, {method: "post"})
@@ -154,7 +154,7 @@ export function RegistrationPage() {
                         e.currentTarget.form!.reportValidity()
                         return
                       }
-                      axios.post('http://localhost:8000/register', {
+                      axios.post('http://krot-game.ru/api/register', {
                         username: username,
                         password: password,
                         gender: gender

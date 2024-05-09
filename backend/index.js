@@ -12,7 +12,7 @@ app.use(cors())
 
 const port = 8000
 
-app.post('/complete_tutorial', (req, res) => {
+app.post('/api/complete_tutorial', (req, res) => {
     const token = req.body.token
 
     if (!token) {
@@ -39,7 +39,7 @@ app.post('/complete_tutorial', (req, res) => {
     })
 })
 
-app.post('/register', (req, res, next) => {
+app.post('/api/register', (req, res, next) => {
     const username = req.body.username
     const password = req.body.password
     const gender = req.body.gender
@@ -71,7 +71,7 @@ app.post('/register', (req, res, next) => {
 
 })
 
-app.post('/login', (req, res, next) => {
+app.post('/api/login', (req, res, next) => {
     const username = req.body.username
     const password = req.body.password
 
@@ -101,7 +101,7 @@ app.post('/login', (req, res, next) => {
     })
 })
 
-app.post('/check_level_answer/:id', (req, res) => {
+app.post('/api/check_level_answer/:id', (req, res) => {
     const answer = req.body.answer
     const levelId = req.params.id
     const token = req.body.token
@@ -128,7 +128,7 @@ app.listen(port, () => {
 })
 
 
-app.get('/create_logins', (req, res) => {
+app.get('/api/create_logins', (req, res) => {
     let str = ''
     for (let i = 0; i < 100_000; i++) {
         str += `('username${i}', 'М', 0, 0, 'password${i}'),`
