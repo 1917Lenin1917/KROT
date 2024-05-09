@@ -116,6 +116,14 @@ app.post('/api/check_level_answer/:id', (req, res) => {
                 const a2 = answer['a2']
                 console.log(a1, a2)
                 res.status(200).send({'a1': a1.toUpperCase() === 'АНГЛИЯ', 'a2': a2.toUpperCase() === 'СТАНСТЕД'})
+                break
+            }
+            case 2: {
+                const a1 = answer['a1']
+                const a2 = answer['a2']
+                const a3 = answer['a3']
+                res.status(200).send({'a1': a1.toUpperCase() === 'ВЫСЛАННЫЕВСССР', 'a2': a2.toUpperCase() === 'НАХОДЯЩИЕСЯНАСЛУЖБЕВАНГЛИИ', 'a3': a3.toUpperCase() === 'ПРОПАЛАСВЯЗЬСАГЕНТОМ'})
+                break
             }
         }
     } catch (e) {
@@ -146,7 +154,7 @@ app.post('/api/complete_level/:id', (req, res) => {
                 case 1: {
                     db.run('UPDATE users SET current_level = 2 WHERE username = ? ', user.username)
                     res.status(200).send()
-                    return
+                    retur3
                 }
             }
         } catch (e) {
