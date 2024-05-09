@@ -156,12 +156,12 @@ app.post('/api/complete_level/:id', (req, res) => {
         try {
             switch (Number(levelId)) {
                 case 1: {
-                    db.run('UPDATE users SET current_level = 2 WHERE username = ? ', user.username, (err, row) => {console.log(err, row)})
+                    db.run('UPDATE users SET current_level = 2 WHERE username = ? ', user.username, (err, row) => {console.log(err, row)}).serialize()
                     res.status(200).send()
                     return
                 }
                 case 2: {
-                    db.run('UPDATE users SET current_level = 3 WHERE username = ? ', user.username)
+                    db.run('UPDATE users SET current_level = 3 WHERE username = ? ', user.username).serialize()
                     res.status(200).send()
                     return
                 }
