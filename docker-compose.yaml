@@ -17,3 +17,6 @@ services:
       drf_tickets_default:
         aliases:
           - krotbackend
+networks:
+  drf_tickets_default:
+    external: true
