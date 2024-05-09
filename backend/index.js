@@ -156,8 +156,10 @@ app.post('/api/current_user', (req, res) => {
             const hash = createHash('sha256')
             return token === hash.update(row.username + row.password).digest('hex')
         })
-        if (!user)
+        if (!user) {
             res.status(400).send({user: null})
+            return
+        }
         console.log(user)
         res.status(200).send({
             user: {
