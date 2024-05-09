@@ -1,7 +1,7 @@
 import backgroundImg from '@assets/TableBackground.png';
 
 import Window from "@components/Window.tsx";
-import {ReactNode, useState} from "react";
+import {ReactNode, useEffect, useState} from "react";
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
 
@@ -62,34 +62,61 @@ export function LoginRegistrationPage() {
 export function LoginPage() {
   const [username, setUsername] = useState<string>("")
   const [password, setPassword] = useState<string>("")
-
+  const [error, setError] = useState<string>("")
   const navigate = useNavigate()
+  useEffect(() => {
+    if (localStorage.getItem('token'))
+      navigate('/home')
+  }, [])
+
   return (
       <div className={"flex justify-center "}>
          <Window w={1060} h={740.5} windowClasses={"mt-10 flex flex-wrap content-center justify-center"}
                 backgroundImg={backgroundImg}>
-            <BaseForm>
-                <input onChange={(e) => { setUsername(e.currentTarget.value) }} placeholder={"Имя пользователя"} className={"z-10 opacity-65 h-12 w-2/3 justify-self-center border-black border-4"}></input>
-                <input onChange={(e) => { setPassword(e.currentTarget.value) }} placeholder={"Пароль"} className={"z-10 opacity-65 h-12 w-2/3 justify-self-center border-black border-4"}></input>
-                <button
-                  type={"submit"}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    axios.post('http://localhost:8000/login', {
-                      username: username,
-                      password: password,
-                    }, {method: "post"})
-                    .then((resp) => {
-                      console.log(resp)
-                      if (resp.status === 200)
-                          navigate('/home')
-                    }).catch((err) => {
-                      console.log(err)
-                    })
-                  }}
-                  className={"z-10 border-black justify-self-center border-4 h-20 w-60 text-4xl bg-orange-100"}>Войти</button>
-            </BaseForm>
-        </Window>
+           <BaseForm>
+             <input required onChange={(e) => {
+               setUsername(e.currentTarget.value)
+             }} placeholder={"Имя пользователя"}
+                    className={"z-10 opacity-65 h-12 w-2/3 justify-self-center border-black border-4"}></input>
+             <input required type={"password"} onChange={(e) => {
+               setPassword(e.currentTarget.value)
+             }} placeholder={"Пароль"}
+                    className={"z-10 opacity-65 h-12 w-2/3 justify-self-center border-black border-4"}></input>
+
+             <div className={"mx-auto z-10 text-red-800"}>{error}</div>
+             <button
+               type={"submit"}
+               onClick={(e) => {
+                 e.preventDefault()
+                 if (!e.currentTarget.form!.checkValidity()) {
+                   e.currentTarget.form!.reportValidity()
+                   return
+                 }
+                 axios.post('http://localhost:8000/login', {
+                   username: username,
+                   password: password,
+                 }, {method: "post"})
+                   .then((resp) => {
+                     console.log(resp)
+                     if (resp.status === 200) {
+                       if (resp.data.user.first_login)
+                          navigate('/tutorial')
+                       else
+                         navigate('/home')
+                     localStorage.setItem('token', resp.data.token)
+                     localStorage.setItem('user', JSON.stringify(resp.data.user))
+                   }
+                 }).catch((err) => {
+                 console.log(err.response.data.detail)
+                 setError(err.response.data.detail)
+                 setTimeout(() => { setError('') }, 2000)
+               })
+             }}
+               className={"z-10 border-black justify-self-center border-4 h-20 w-60 text-4xl bg-orange-100"}>Войти
+             </button>
+
+           </BaseForm>
+         </Window>
       </div>
   )
 }
@@ -98,24 +125,35 @@ export function RegistrationPage() {
   const [username, setUsername] = useState<string>("")
   const [gender, setGender] = useState<string>("М")
   const [password, setPassword] = useState<string>("")
+
+  const [error, setError] = useState<string>("")
   const navigate = useNavigate()
+  useEffect(() => {
+    if (localStorage.getItem('token'))
+      navigate('/home')
+  }, [])
 
   return (
       <div className={"flex justify-center "}>
           <Window w={1060} h={740.5} windowClasses={"mt-10 flex flex-wrap content-center justify-center"}
                   backgroundImg={backgroundImg}>
               <BaseForm>
-                  <input onChange={(e) => { setUsername(e.currentTarget.value) }} placeholder={"Имя пользователя"} className={"z-10 opacity-65 h-12 w-2/3 justify-self-center border-black border-4"}></input>
-                  <select onChange={(e) => { setGender(e.currentTarget.value) }} className={"z-10 opacity-65 h-12 w-2/3 justify-self-center border-black border-4"}>
+                  <input required onChange={(e) => { setUsername(e.currentTarget.value) }} placeholder={"Имя пользователя"} className={"z-10 opacity-65 h-12 w-2/3 justify-self-center border-black border-4"}></input>
+                  <select required onChange={(e) => { setGender(e.currentTarget.value) }} className={"z-10 opacity-65 h-12 w-2/3 justify-self-center border-black border-4"}>
                     <option>М</option>
                     <option>Ж</option>
                     <option>ХЗ</option>
                   </select>
-                  <input onChange={(e) => { setPassword(e.currentTarget.value) }} placeholder={"Пароль"} className={"z-10 opacity-65 h-12 w-2/3 justify-self-center border-black border-4"}></input>
+                  <input type={"password"} required onChange={(e) => { setPassword(e.currentTarget.value) }} placeholder={"Пароль"} className={"z-10 opacity-65 h-12 w-2/3 justify-self-center border-black border-4"}></input>
+                  <div className={"mx-auto z-10 text-red-800"}>{error}</div>
                   <button
                     type={"submit"}
                     onClick={(e) => {
                       e.preventDefault()
+                      if (!e.currentTarget.form!.checkValidity()) {
+                        e.currentTarget.form!.reportValidity()
+                        return
+                      }
                       axios.post('http://localhost:8000/register', {
                         username: username,
                         password: password,
@@ -126,7 +164,9 @@ export function RegistrationPage() {
                         if (resp.status === 200)
                           navigate('/login')
                       }).catch((err) => {
-                        console.log(err)
+                        console.log(err.response.data.detail)
+                        setError(err.response.data.detail)
+                        setTimeout(() => { setError('') }, 2000)
                       })
                     }}
                     className={"z-10 border-black justify-self-center border-4 h-20 text-4xl bg-orange-100"}>Зарегистрироваться</button>

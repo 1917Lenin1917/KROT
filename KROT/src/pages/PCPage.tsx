@@ -1,6 +1,8 @@
+import HomeScreenImg from "@assets/HomeScreen.png";
+import Window from "@components/Window.tsx";
+import {ElementRef, ReactNode, useRef} from "react";
 import {useNavigate} from "react-router-dom";
-import {ReactNode} from "react";
-import useOutsideClick from "../hooks/useOutsideClick.tsx";
+import emergencyExitGreenImg from "@assets/EmergyncyExitGreen.png";
 
 function BaseForm({ children }: {children?: ReactNode}) {
   return (
@@ -27,36 +29,37 @@ function BaseForm({ children }: {children?: ReactNode}) {
         </defs>
 
       </svg>
-      <div className={"flex z-10 text-center border-black border-4 text-5xl h-20 bg-orange-100 justify-center"}><span
-        className={"my-auto"}>Спецоперция КРОТ</span></div>
+      <div className={"flex z-10 text-center border-black border-4 text-3xl h-20 bg-orange-100 justify-center mt-[250px]"}><span
+        className={"my-auto"}>Компьютер доступен во второй главе!</span></div>
       {children}
     </form>
   )
 }
 
-
-export default function ExitModal() {
+export function PCPage() {
+  const ref = useRef<ElementRef<"button">>(null)
+  window.ref = ref
   const navigate = useNavigate()
-  const ref = useOutsideClick<"dialog">(() => {
-    navigate(-1)
-  })
   return (
-    <div className={"dark_cover"}>
-      <dialog ref={ref} open className={"fixed top-1/4"}>
+    <div className={"flex justify-center"}>
+      <Window w={1108.2} h={752.5} backgroundImg={HomeScreenImg}>
         <BaseForm>
-            <button
-              onClick={(e) => { e.preventDefault(); navigate(-1) }}
-              className={"z-10 border-black justify-self-center border-4 w-80 h-20 text-4xl bg-orange-100 hover:border-green-700"}>
-              Вернуться
-            </button>
-            <button
-              onClick={(e) => { e.preventDefault(); localStorage.clear(); navigate('/') }}
-              className={"z-10 border-black justify-self-center border-4 w-80 h-20 text-4xl bg-orange-100 hover:border-green-700"}>
-              Выход
-            </button>
+
         </BaseForm>
-      </dialog>
+      </Window>
+      <div className={"relative z-10"}>
+        <button ref={ref} className={"hover_size z-10"} onClick={() => {
+          navigate(-1)
+        }} style={{
+          position: "absolute",
+          top: "100px",
+          left: "-1049px",
+          width: "60px",
+          height: "60px",
+          backgroundImage: `url(${emergencyExitGreenImg})`
+        }}>
+        </button>
+      </div>
     </div>
   )
-    ;
 }

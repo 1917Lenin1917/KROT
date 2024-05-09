@@ -117,3 +117,34 @@
   to { transform: translate(0px, 0); }
 
 }
+
+.regular-cell {
+  width: 50px;
+  height: 50px;
+  border: solid 1px black;
+  text-align: center;
+}
+
+.yellow-cell {
+  background-color: #EAB45A;
+  width: 50px;
+  height: 50px;
+  border: solid 1px black;
+  text-align: center;
+}
+
+.green-cell {
+  background-color: #B1C1B4;
+  width: 50px;
+  height: 50px;
+  border: solid 1px black;
+  text-align: center;
+}
+
+.dark-green-cell {
+  background-color: #709075;
+  width: 50px;
+  height: 50px;
+  border: solid 1px black;
+  text-align: center;
+}

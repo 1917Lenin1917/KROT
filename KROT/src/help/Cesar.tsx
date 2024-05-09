@@ -1,5 +1,5 @@
-import {ElementRef, useEffect, useRef, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {ElementRef, useRef, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import Window from "@components/Window.tsx";
 
 import HomeScreenImg from "@assets/HomeScreen.png";
@@ -17,7 +17,8 @@ const getLowerArray = (char: string) => {
   return res
 }
 export default function CesarHelp() {
-  const { qWord } = useParams() as { qWord: string }
+  const qWord = 'НЕОКОЛОНИАЛИЗМ'
+  // const { qWord } = useParams() as { qWord: string }
   const ref = useRef<ElementRef<"div">>(null)
   const refCurr = useRef<ElementRef<"div">>(null)
   const [i, setI] = useState(0)
@@ -28,36 +29,36 @@ export default function CesarHelp() {
   const [currPosition, setCurrPosition] = useState(3)
   const moveChar = async (nextChar: string) => {
     setIsButton(false)
-    refCurr.current.className += " down"
+    refCurr.current!.className += " down"
     setTimeout(() => {
-      ref.current.className = ref.current.className.replace("op-0", "vis")
+      ref.current!.className = ref.current!.className.replace("op-0", "vis")
     }, 1000)
     setTimeout(() => {
-      refCurr.current.className += " op-0"
+      refCurr.current!.className += " op-0"
 
       setWord([...word.slice(0, i), nextChar, ...word.slice(i+1)])
     }, 1400)
     setTimeout(() => {
-      ref.current.className = ref.current.className.replace("translate-x-[-100px]", " move-left-3")
+      ref.current!.className = ref.current!.className.replace("translate-x-[-100px]", " move-left-3")
       setCurrPosition(4)
     }, 4000)
 
     setTimeout(() => {
-      ref.current.className = ref.current.className.replace("move-left-3", "move-left-4")
+      ref.current!.className = ref.current!.className.replace("move-left-3", "move-left-4")
       setCurrPosition(5)
     }, 5000)
 
     setTimeout(() => {
-      ref.current.className = ref.current.className.replace("move-left-4", "move-left-5")
+      ref.current!.className = ref.current!.className.replace("move-left-4", "move-left-5")
       setCurrPosition(6)
     }, 6000)
     setTimeout(() => {
-      refCurr.current.className = refCurr.current.className.replace("op-0", "move-up").replace("down", "")
-      ref.current.className = ref.current.className.replace("vis", "op-0").replace("move-left-5", "translate-x-[-100px]")
+      refCurr.current!.className = refCurr.current!.className.replace("op-0", "move-up").replace("down", "")
+      ref.current!.className = ref.current!.className.replace("vis", "op-0").replace("move-left-5", "translate-x-[-100px]")
 
     }, 7000)
     setTimeout(() => {
-      refCurr.current.className = refCurr.current.className.replace("move-up", "")
+      refCurr.current!.className = refCurr.current!.className.replace("move-up", "")
       setI((i+1))
       setCurrentChar(word[(i+1)%word.length])
       setIsButton(true)
@@ -96,6 +97,8 @@ export default function CesarHelp() {
       <button disabled={!isButton} className={"z-10 border-black justify-self-center border-4 h-20 text-4xl bg-orange-100 disabled:bg-gray-200 w-[400px]"} onClick={() => {
         setI(0)
         setWord(Array.from(qWord))
+        setCurrPosition(0)
+        setCurrentChar(qWord[0])
       }}>Заново
       </button>
     </div>

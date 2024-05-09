@@ -1,15 +1,27 @@
-import {Route, Routes, useLocation} from "react-router-dom";
+import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import {LoginPage, LoginRegistrationPage, RegistrationPage} from "@pages/LoginRegistrationPage.tsx";
 import HomePage from "@pages/HomePage.tsx";
 import ExitModal from "@components/ExitModal.tsx";
 import LevelPage from "@pages/LevelPage.tsx";
 import {ChapterSelectFunction, ChapterSelectOutlet, LevelSelectFunction} from "@pages/LevelSelectPage.tsx";
-import {CaesarRender} from "./help/Cesar.tsx";
 import Help from "./help/help.tsx";
+import TutorialPage from "@pages/TutorialPage.tsx";
+import {useEffect} from "react";
+import {PCPage} from "@pages/PCPage.tsx";
+import {MailMail, MailNotes, MailOutlet, MailPage} from "@pages/MailPage.tsx";
 
 export default function Router() {
   const location = useLocation()
   const background = location.state && location.state.background
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (localStorage.getItem('user')) {
+      const user = JSON.parse(localStorage.getItem('user')!)
+      if (user.first_login)
+       navigate('/tutorial')
+    }
+  }, [])
+
   return (
       <>
       <Routes location={background || location}>
@@ -26,7 +38,13 @@ export default function Router() {
             </Route>
           </Route>
           <Route path={"help/"} element={<Help/>}></Route>
-          <Route path={"help/caesar/:qWord"} element={<CaesarRender/>}></Route>
+          <Route path={"tutorial"} element={<TutorialPage/>}></Route>
+          <Route path={"computer"} element={<PCPage/>}></Route>
+          <Route path={"mail"} element={<MailPage/>}>
+            <Route index element={<MailOutlet/>}></Route>
+            <Route path={"mail"} element={<MailMail/>}></Route>
+            <Route path={"notes"} element={<MailNotes/>}></Route>
+          </Route>
         </Route>
       </Routes>
         {background && <Routes>

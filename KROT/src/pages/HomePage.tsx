@@ -28,12 +28,12 @@ export default function HomePage() {
             <button>
             </button>
           </Link>
-          <button className={"hover_size"} style={{gridArea: "4 / 47 / span 3 / span 3", backgroundImage: `url(${computerIconImg})`}}>
+          <Link to={"/computer"} className={"hover_size"} style={{gridArea: "4 / 47 / span 3 / span 3", backgroundImage: `url(${computerIconImg})`}}>
+            <button></button>
+          </Link>
+          <Link to={"/mail"} className={"hover_size"} style={{gridArea: "4 / 50 / span 3 / span 3", backgroundImage: `url(${mailIconImg})`}}>
 
-          </button>
-          <button className={"hover_size"} style={{gridArea: "4 / 50 / span 3 / span 3", backgroundImage: `url(${mailIconImg})`}}>
-
-          </button>
+          </Link>
 
           <Link to={"/help"} className={"hover_size"} style={{gridArea: "32 / 4 / span 3 / span 3", backgroundImage: `url(${magnifierIconImg})`}}>
             <button>
