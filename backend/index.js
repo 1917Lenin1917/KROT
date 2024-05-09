@@ -211,7 +211,7 @@ app.post('/api/current_user', (req, res) => {
             res.status(400).send({user: null})
             return
         }
-        console.log(user)
+        // console.log(user)
         res.status(200).send({
             user: {
                 username: user.username,
