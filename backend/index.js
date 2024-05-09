@@ -145,6 +145,11 @@ app.listen(port, () => {
 app.post('/api/current_user', (req, res) => {
     const token = req.body.token
     db.all('SELECT id, username, password, current_level, current_chapter, gender, first_login FROM users', [], (err, rows) => {
+        if (!rows) {
+            console.log(err)
+            res.status(400).send()
+            return
+        }
         const user = rows.find(row => {
             const hash = createHash('sha256')
             return token === hash.update(row.username + row.password).digest('hex')
