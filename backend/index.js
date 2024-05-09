@@ -26,7 +26,7 @@ app.post('/api/complete_tutorial', (req, res) => {
             return token === hash.update(row.username + row.password).digest('hex')
         })
         console.log(user)
-        db.run('UPDATE users SET first_login = 0 WHERE id = ?', [user.id])
+        db.run('UPDATE users SET current_level = 1, current_chapter = 1, first_login = 0 WHERE id = ?', [user.id])
         res.status(200).send({
             user: {
                 username: user.username,
