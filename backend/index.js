@@ -123,6 +123,38 @@ app.post('/api/check_level_answer/:id', (req, res) => {
     }
 })
 
+app.post('/api/complete_level/:id', (req, res) => {
+    const levelId = req.params.id
+    const token = req.body.token
+    db.all('SELECT id, username, password, current_level, current_chapter, gender, first_login FROM users', [], (err, rows) => {
+        if (!rows) {
+            console.log(err)
+            res.status(400).send()
+            return
+        }
+        const user = rows.find(row => {
+            const hash = createHash('sha256')
+            return token === hash.update(row.username + row.password).digest('hex')
+        })
+        if (!user) {
+            res.status(400).send()
+            return
+        }
+        console.log(user)
+        try {
+            switch (Number(levelId)) {
+                case 1: {
+                    db.run('UPDATE users SET current_level = 2 WHERE username = ? ', user.username)
+                    res.status(200).send()
+                    return
+                }
+            }
+        } catch (e) {
+            res.status(400).send({'detail': 'Error'})
+        }
+    })
+})
+
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
     db.run("create table users(id INTEGER primary key autoincrement, username TEXT unique, password TEXT, gender TEXT, current_level INTEGER, current_chapter INTEGER, first_login INTEGER default 1 not null, check (first_login IN (0, 1)), check (gender in ('М', 'Ж', 'ХЗ')));")
