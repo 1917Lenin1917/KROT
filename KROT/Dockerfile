@@ -1,0 +1,13 @@
+FROM node:latest
+LABEL authors="lenin"
+
+WORKDIR /app
+COPY package.json ./
+RUN npm install
+COPY . .
+
+RUN npm build
+
+RUN npm install -g serve
+
+CMD ["serve", "-g", "dist"]

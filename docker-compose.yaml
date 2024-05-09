@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: ./KROT
+      dockerfile: Dockerfile
+    networks:
+      drf_tickets_default:
+        aliases:
+          - krot
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    networks:
+      drf_tickets_default:
+        aliases:
+          - krotbackend
