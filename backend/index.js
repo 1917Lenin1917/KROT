@@ -158,7 +158,12 @@ app.post('/api/complete_level/:id', (req, res) => {
                 case 1: {
                     db.run('UPDATE users SET current_level = 2 WHERE username = ? ', user.username)
                     res.status(200).send()
-                    retur3
+                    return
+                }
+                case 2: {
+                    db.run('UPDATE users SET current_level = 3 WHERE username = ? ', user.username)
+                    res.status(200).send()
+                    return
                 }
             }
         } catch (e) {
