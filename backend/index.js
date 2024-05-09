@@ -169,7 +169,9 @@ app.post('/api/complete_level/:id', (req, res) => {
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
-    db.run("create table users(id INTEGER primary key autoincrement, username TEXT unique, password TEXT, gender TEXT, current_level INTEGER, current_chapter INTEGER, first_login INTEGER default 1 not null, check (first_login IN (0, 1)), check (gender in ('М', 'Ж', 'ХЗ')));")
+    db.run("create table users(id INTEGER primary key autoincrement, username TEXT unique, password TEXT, gender TEXT, current_level INTEGER, current_chapter INTEGER, first_login INTEGER default 1 not null, check (first_login IN (0, 1)), check (gender in ('М', 'Ж', 'ХЗ')));", (err) => {
+        console.log(err)
+    })
 
 })
 
