@@ -116,17 +116,18 @@ app.post('/api/check_level_answer/:id', (req, res) => {
                 const a2 = answer['a2']
                 console.log(a1, a2)
                 res.status(200).send({'a1': a1.toUpperCase() === 'АНГЛИЯ', 'a2': a2.toUpperCase() === 'СТАНСТЕД'})
-                break
+                return
             }
             case 2: {
                 const a1 = answer['a1']
                 const a2 = answer['a2']
                 const a3 = answer['a3']
                 res.status(200).send({'a1': a1.toUpperCase() === 'ВЫСЛАННЫЕВСССР', 'a2': a2.toUpperCase() === 'НАХОДЯЩИЕСЯНАСЛУЖБЕВАНГЛИИ', 'a3': a3.toUpperCase() === 'ПРОПАЛАСВЯЗЬСАГЕНТОМ'})
-                break
+                return
             }
             default: {
                 res.status(400).send('default')
+                return
             }
         }
     } catch (e) {
