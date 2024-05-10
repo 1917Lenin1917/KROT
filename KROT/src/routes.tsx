@@ -8,7 +8,8 @@ import Help from "./help/help.tsx";
 import TutorialPage from "@pages/TutorialPage.tsx";
 import {useEffect} from "react";
 import {PCPage} from "@pages/PCPage.tsx";
-import {MailMail, MailNotes, MailOutlet, MailPage} from "@pages/MailPage.tsx";
+import {Mail1, Mail2, MailMail, MailNotes, MailOutlet, MailPage} from "@pages/MailPage.tsx";
+import DialogPage from "@pages/DialogPage.tsx";
 
 export default function Router() {
   const location = useLocation()
@@ -39,10 +40,13 @@ export default function Router() {
           </Route>
           <Route path={"help/"} element={<Help/>}></Route>
           <Route path={"tutorial"} element={<TutorialPage/>}></Route>
+          <Route path={"dialog"} element={<DialogPage/>}></Route>
           <Route path={"computer"} element={<PCPage/>}></Route>
           <Route path={"mail"} element={<MailPage/>}>
             <Route index element={<MailOutlet/>}></Route>
             <Route path={"mail"} element={<MailMail/>}></Route>
+            <Route path={"mail/1"} element={<Mail1/>}></Route>
+            <Route path={"mail/2"} element={<Mail2/>}></Route>
             <Route path={"notes"} element={<MailNotes/>}></Route>
           </Route>
         </Route>

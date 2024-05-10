@@ -76,9 +76,9 @@ export function LevelSelectFunction() {
             const [p, filename] = lvl.replace('../levels/', '').replace('.tsx', '').split('/')
             // console.log(p, filename, lvl, levels)
             if (p !== chapter) return null
-            return <Link key={key} className={"z-10 justify-self-center"} to={`/levels/${p}/${filename > currentLevel + 1 ? '' : filename}`}>
+            return <Link key={key} className={"z-10 justify-self-center"} to={`/levels/${p}/${filename > currentLevel ? '' : filename}`}>
               <button type={"submit"}
-                      className={`z-10 border-black justify-self-center border-4 h-20 text-4xl w-[450px] ${filename > currentLevel + 1 ? 'hover:border-gray-600 cursor-not-allowed bg-gray-400' : 'hover:border-green-700 bg-orange-100'}`}>{filename}</button>
+                      className={`z-10 border-black justify-self-center border-4 h-20 text-4xl w-[450px] ${filename > currentLevel ? 'hover:border-gray-600 cursor-not-allowed bg-gray-400' : filename < currentLevel ? 'bg-green-600' : 'hover:border-green-700 bg-orange-100'}`}>{filename}</button>
             </Link>
           })}
         </BaseForm>

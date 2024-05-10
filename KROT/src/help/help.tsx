@@ -8,11 +8,13 @@ import Left from "@assets/arrowLeft.png";
 import Right from "@assets/arrowRight.png";
 import Sym from "@assets/sym.png"
 import CesarHelp from "./Cesar.tsx";
-
+import XOR1 from "@assets/XOR1.png"
+import XOR2 from "@assets/XOR2.png"
 import KV1 from "@assets/kv1.png"
 import KV2 from "@assets/kv2.png"
 import KV3 from "@assets/kv3.png"
 import {PolibSquare} from "./PolibSquare.tsx";
+import {MagicSquare} from "./MagixSquare.tsx";
 
 export default function Help({fromLevel = false, setRenderLibrary = () => {}}: { fromLevel?: boolean, setRenderLibrary?: Dispatch<SetStateAction<boolean>>}) {
   const navigate = useNavigate()
@@ -187,8 +189,67 @@ export default function Help({fromLevel = false, setRenderLibrary = () => {}}: {
         При шифровании буквы открытого текста необходимо вписать в магический квадрат в соответствии с нумерацией его клеток. Для получения шифртекста считывают содержимое заполненной таблицы по строкам.
       </div>
       <div style={{gridArea: "16 / 8 / span 4 / span 40"}}>
-
+        <MagicSquare/>
       </div>
+    </>,
+    <>
+      <div style={{gridArea: "4 / 4 / span 4 / span 40"}}>
+        <Window w={1000} h={600} backgroundImg={Pegament}>
+        </Window>
+      </div>
+      <div style={{gridArea: "7 / 6 / span 4 / span 50"}} className={"text-2xl"}>Симметричные шифры. Шифр табличной маршрутной перестановки.
+      </div>
+      <div className={"text-2xl"} style={{gridArea: "10 / 6 / span 4 / span 45"}}>
+        При шифровании в такую таблицу вписывают исходное сообщение по определенному маршруту, а выписывают (получают
+        шифрограмму) - по-другому. Для данного шифра маршруты
+        вписывания и выписывания, а также размеры таблицы являются ключом
+      </div>
+      <div style={{gridArea: "16 / 8 / span 4 / span 40"}}>
+      </div>
+    </>,
+
+    <>
+      <div style={{gridArea: "4 / 4 / span 4 / span 40"}}>
+        <Window w={1000} h={600} backgroundImg={Pegament}>
+        </Window>
+      </div>
+      <div style={{gridArea: "7 / 5 / span 4 / span 50"}} className={"text-4xl"}>Симметричноые шифры. Сложение по модулю 2.
+      </div>
+      <div className={"text-2xl"} style={{gridArea: "10 / 6 / span 4 / span 45"}}>
+        Шифр “сложение по модулю 2” является шифром гаммирования. Гамма - секретное слово, которое и является ключом. Буквы исходного текста и ключа переводятся в двоичный код, затем  “буквы” исходного текста и ключа складываются по модулю 2 посимвольно.
+        Гамма должна повторяться столько раз, пока не “заполнит” весь шифруемый текст.
+      </div>
+      <div style={{gridArea: "16 / 8 / span 4 / span 40"}}>
+      </div>
+    </>,
+
+    <>
+      <div style={{gridArea: "4 / 4 / span 4 / span 40"}}>
+        <Window w={1000} h={600} backgroundImg={Pegament}>
+        </Window>
+      </div>
+      <div style={{gridArea: "7 / 5 / span 4 / span 50"}} className={"text-4xl"}>Симметричноые шифры. Сложение по модулю 2.
+      </div>
+      <div className={"text-2xl"} style={{gridArea: "10 / 6 / span 4 / span 45"}}>
+        Сложение по модулю 2 - логическая операция в информатике.
+        Обозначение : A xor B
+      </div>
+      <div style={{gridArea: "16 / 8 / span 4 / span 40"}}>
+      </div>
+    </>,
+
+    <>
+      <div style={{gridArea: "4 / 4 / span 4 / span 40"}}>
+        <Window w={1000} h={600} backgroundImg={Pegament}>
+        </Window>
+      </div>
+      <div style={{gridArea: "7 / 5 / span 4 / span 50"}} className={"text-4xl"}>Симметричноые шифры. Сложение по модулю 2.
+      </div>
+      <div className={"text-2xl"} style={{gridArea: "10 / 6 / span 4 / span 45"}}>
+        В данном примере для перевода букв в двоичный код будет использоваться табличка кодов символов Windows 1251.
+      </div>
+        <img style={{gridArea: "15 / 5 / span 4 / span 10"}} src={XOR1}></img>
+        <img style={{width: "800px", gridArea: "15 / 16 / span 10 / span 37"}} src={XOR2}></img>
     </>,
   ]
 

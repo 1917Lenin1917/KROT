@@ -1,14 +1,14 @@
 import { useParams } from "react-router-dom";
-import { lazy, Suspense } from "react";
-
+import Chapter1Level1 from "../levels/1/1.tsx"
+import Chapter1Level2 from "../levels/1/2.tsx"
 
 export default function LevelPage() {
   const { chapter, level } = useParams() as { chapter: string, level: string }
-  const Component = lazy(() => import((`../levels/${chapter}/${level}.tsx`)))
-  console.log(level, Component)
+  // const Component = lazy(() => import((`../levels/${chapter}/${level}.tsx`)))
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Component/>
-    </Suspense>
+    <>
+      {chapter === '1' && level === '1' && <Chapter1Level1/>}
+      {chapter === '1' && level === '2' && <Chapter1Level2/>}
+    </>
   )
 }

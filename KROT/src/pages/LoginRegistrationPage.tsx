@@ -103,6 +103,7 @@ export function LoginPage() {
                           navigate('/tutorial')
                        else
                          navigate('/home')
+                       localStorage.clear()
                      localStorage.setItem('token', resp.data.token)
                      localStorage.setItem('user', JSON.stringify(resp.data.user))
                    }

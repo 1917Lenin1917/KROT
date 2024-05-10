@@ -12,25 +12,31 @@ import {Link, useNavigate} from "react-router-dom";
 export default function Level() {
   const [answer1, setAnswer1] = useState("")
   const [answer2, setAnswer2] = useState("")
+  const [answer3, setAnswer3] = useState("")
   const [a1Debounce] = useDebounce(answer1, 500)
   const [a2Debounce] = useDebounce(answer2, 500)
+  const [a3Debounce] = useDebounce(answer3, 500)
   const [isCorrect1, setIsCorrect1] = useState<boolean | null>(null)
   const [isCorrect2, setIsCorrect2] = useState<boolean | null>(null)
+  const [isCorrect3, setIsCorrect3] = useState<boolean | null>(null)
+
   const [renderLibrary, setRenderLibrary] = useState(false)
   const navigate = useNavigate()
   useEffect(() => {
     console.log(a1Debounce, a2Debounce)
-    axios.post('http://krot-game.ru/api/check_level_answer/1', {
+    axios.post('http://krot-game.ru/api/check_level_answer/2', {
       token: localStorage.getItem('token')!,
       answer: {
         a1: a1Debounce,
-        a2: a2Debounce
+        a2: a2Debounce,
+        a3: a3Debounce
       }
     }).then(response => {
       setIsCorrect1(response.data.a1)
       setIsCorrect2(response.data.a2)
+      setIsCorrect3(response.data.a3)
     })
-  }, [a1Debounce, a2Debounce])
+  }, [a1Debounce, a2Debounce, a3Debounce])
 
   if (renderLibrary) {
     window.ref.current!.className += " hidden"
@@ -62,42 +68,58 @@ export default function Level() {
         </div>
         <button className={"hover_size text-[30px] border-black border-4 bg-orange-100 cursor-default"}
                 style={{gridArea: "4 / 41 / span 3 / span 12"}}>
-          Задание 1
+          Задание 2
         </button>
         <div className={"p-1 border-black border-4 bg-orange-100 text-2xl"}
-             style={{gridArea: "24 / 5 / span 3 / span 36"}}>В какой аэропорт вы прилетите?
+             style={{gridArea: "24 / 5 / span 3 / span 36"}}>Исходный текст записки 3
         </div>
         <input className={"p-1 border-black border-4 bg-orange-100"} placeholder={"ВВЕСТИ ОТВЕТ"}
-               style={{gridArea: "28 / 5 / span 3 / span 32"}} onChange={(e) => {
+               style={{gridArea: "28 / 5 / span 2 / span 32"}} onChange={(e) => {
+          setAnswer3(e.currentTarget.value)
+        }}>
+        </input>
+        <button
+          className={`${a3Debounce.length === 0 ? "border-black" : isCorrect3 ? "border-green-700" : "border-red-800"} text-[30px] border-4 bg-orange-300`}
+          style={{gridArea: "28 / 37 / span 2 / span 4"}}>
+        </button>
+
+        <div className={"p-1 border-black border-4 bg-orange-100 text-2xl"}
+             style={{gridArea: "16 / 5 / span 3 / span 36"}}>Исходный текст записки 2
+        </div>
+        <input className={"p-1 border-black border-4 bg-orange-100"} placeholder={"ВВЕСТИ ОТВЕТ"}
+               style={{gridArea: "20 / 5 / span 2 / span 32"}} onChange={(e) => {
           setAnswer2(e.currentTarget.value)
         }}>
         </input>
         <button
           className={`${a2Debounce.length === 0 ? "border-black" : isCorrect2 ? "border-green-700" : "border-red-800"} text-[30px] border-4 bg-orange-300`}
-          style={{gridArea: "28 / 37 / span 3 / span 4"}}>
+          style={{gridArea: "20 / 37 / span 2 / span 4"}}>
 
         </button>
 
-
         <div className={"p-1 border-black border-4 bg-orange-100 text-2xl"}
-             style={{gridArea: "12 / 5 / span 3 / span 36"}}>В какой стране будет проходить миссия?
+             style={{gridArea: "9 / 5 / span 3 / span 36"}}>Исходный текст записки 1
         </div>
         <input className={"p-1 border-black border-4 bg-orange-100"} placeholder={"ВВЕСТИ ОТВЕТ"}
-               style={{gridArea: "16 / 5 / span 3 / span 32"}} onChange={(e) => {
+               style={{gridArea: "13 / 5 / span 2 / span 32"}} onChange={(e) => {
           setAnswer1(e.currentTarget.value)
         }}>
         </input>
         <button
           className={`${a1Debounce.length === 0 ? "border-black" : isCorrect1 ? "border-green-700" : "border-red-800"} text-[30px] border-4 bg-orange-300`}
-          style={{gridArea: "16 / 37 / span 3 / span 4"}}>
+          style={{gridArea: "13 / 37 / span 2 / span 4"}}>
 
         </button>
         <button className={"hover_size border-4 text-3xl border-black bg-orange-200 hover:border-green-700"}
                 style={{gridArea: "32 / 5 / span 3 / span 10"}}>ПОДСКАЗКА
         </button>
 
-        { isCorrect1 && isCorrect2 && <button onClick={() => { axios.post('http://krot-game.ru/api/complete_level/1', {token: localStorage.getItem('token')}).then(() => { navigate('/dialog') }) }} className={"hover_size border-4 text-3xl border-black bg-orange-200 hover:border-green-700"}
-                style={{gridArea: "32 / 31 / span 3 / span 10"}}>ЗАВЕРШИТЬ
+        {isCorrect1 && isCorrect2 && isCorrect3 && <button onClick={() => {
+          axios.post('http://krot-game.ru/api/complete_level/2', {token: localStorage.getItem('token')}).then(() => {
+            navigate('/home')
+          })
+        }} className={"hover_size border-4 text-3xl border-black bg-orange-200 hover:border-green-700"}
+                                             style={{gridArea: "32 / 31 / span 3 / span 10"}}>ЗАВЕРШИТЬ
         </button>}
 
 
@@ -106,9 +128,9 @@ export default function Level() {
         }}
                 style={{gridArea: "32 / 50 / span 3 / span 3", backgroundImage: `url(${magnifierIconImg})`}}>
         </button>
-        <Link to={"/mail/mail/1"} className={"hover_size"} onClick={() => {
+        <Link to={"/mail/mail/2"} className={"hover_size"} onClick={() => {
         }}
-                style={{gridArea: "28 / 50 / span 3 / span 3", backgroundImage: `url(${mailIcon})`}}>
+              style={{gridArea: "28 / 50 / span 3 / span 3", backgroundImage: `url(${mailIcon})`}}>
         </Link>
       </div>
     </>

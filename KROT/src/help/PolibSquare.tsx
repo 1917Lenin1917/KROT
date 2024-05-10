@@ -16,9 +16,11 @@ export function PolibSquare() {
   const [remove, setRemove] = useState(false)
   const [encr, setEncr] = useState('')
   useEffect(() => {
+    setCurrentChar(qWord[index])
+    const cChar = qWord[index]
     for(let i = 0; i < rows.length; i++) {
       for (let j = 0; j < rows[i].length; j++) {
-        if (rows[i][j] === currentChar) {
+        if (rows[i][j] === cChar) {
           setRowIdx(i+1)
           setColIdx(j+1)
           if (remove && index === qWord.length -1) {
@@ -36,11 +38,6 @@ export function PolibSquare() {
     if (index === -1) setEncr('')
     setRowIdx(0)
     setColIdx(0)
-  }, [currentChar])
-
-  useEffect(() => {
-    setCurrentChar(qWord[index])
-
   }, [index])
 
   return (
