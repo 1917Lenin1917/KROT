@@ -12,8 +12,7 @@ import {BACKEND_IP} from "../../main.tsx";
 
 export default function Level() {
   const hints = [
-    'Вы когда-нибудь играли в “Морской бой”?',
-    'Записывайте ответ без пробелов и строчными буквами.',
+    '',
   ]
   const location = useLocation()
   const [answer1, setAnswer1] = useState("")
@@ -30,7 +29,7 @@ export default function Level() {
   const navigate = useNavigate()
   useEffect(() => {
     console.log(a1Debounce, a2Debounce)
-    axios.post(`${BACKEND_IP}/api/check_level_answer/2`, {
+    axios.post(`${BACKEND_IP}/api/check_level_answer/12`, {
       token: localStorage.getItem('token')!,
       answer: {
         a1: a1Debounce,
@@ -39,7 +38,7 @@ export default function Level() {
       }
     }).then(response => {
       setIsCorrect1(response.data.a1)
-      setIsCorrect2(response.data.a2)
+      setIsCorrect2(response.data.a3)
       setIsCorrect3(response.data.a3)
     })
   }, [a1Debounce, a2Debounce, a3Debounce])
@@ -74,39 +73,37 @@ export default function Level() {
         </div>
         <button className={"hover_size text-[30px] border-black border-4 bg-orange-100 cursor-default"}
                 style={{gridArea: "4 / 41 / span 3 / span 12"}}>
-          Задание 2
+          Задание 7.3
         </button>
-        <div className={"p-1 border-black border-4 bg-orange-100 text-2xl"}
-             style={{gridArea: "24 / 5 / span 3 / span 36"}}>Исходный текст записки 3
+
+        <div className={"p-1 border-black border-4 bg-orange-100 text-xl"}
+             style={{gridArea: "18 / 5 / span 4 / span 36"}}>Конечная перестановка ключа. Введите перставленные биты ключа. (16 сис. исчисл)
         </div>
-        <input className={"p-1 border-black border-4 bg-orange-100"} placeholder={"ВВЕСТИ ОТВЕТ"}
-               style={{gridArea: "28 / 5 / span 2 / span 32"}} onChange={(e) => {
+        <input className={"p-1 border-black border-4 bg-orange-100"} placeholder={"ВВЕДИТЕ ОТВЕТ"}
+               style={{gridArea: "22 / 5 / span 2 / span 32"}} onChange={(e) => {
           setAnswer3(e.currentTarget.value)
         }}>
         </input>
         <button
           className={`${a3Debounce.length === 0 ? "border-black" : isCorrect3 ? "border-green-700" : "border-red-800"} text-[30px] border-4 bg-orange-300`}
-          style={{gridArea: "28 / 37 / span 2 / span 4"}}>
+          style={{gridArea: "22 / 37 / span 2 / span 4"}}>
+
         </button>
 
-        <div className={"p-1 border-black border-4 bg-orange-100 text-2xl"}
-             style={{gridArea: "16 / 5 / span 3 / span 36"}}>Исходный текст записки 2
+        <div className={"p-1 border-black border-4 bg-orange-100 text-xl"}
+             style={{gridArea: "9 / 5 / span 4 / span 36"}}>Начальная перестановка ключа. Введите перставленные биты
+          ключа. Далее + сдвиг
         </div>
-        <input className={"p-1 border-black border-4 bg-orange-100"} placeholder={"ВВЕСТИ ОТВЕТ"}
-               style={{gridArea: "20 / 5 / span 2 / span 32"}} onChange={(e) => {
+        <input className={"p-1 border-black border-4 bg-orange-100"} placeholder={"Переставленные биты со сдвигом"}
+               style={{gridArea: "15 / 5 / span 2 / span 32"}} onChange={(e) => {
           setAnswer2(e.currentTarget.value)
-        }}>
-        </input>
+        }}/>
         <button
-          className={`${a2Debounce.length === 0 ? "border-black" : isCorrect2 ? "border-green-700" : "border-red-800"} text-[30px] border-4 bg-orange-300`}
-          style={{gridArea: "20 / 37 / span 2 / span 4"}}>
-
+          className={`${a2Debounce.length === 0 ? "border-black" : isCorrect1 ? "border-green-700" : "border-red-800"} text-[30px] border-4 bg-orange-300`}
+          style={{gridArea: "15 / 37 / span 2 / span 4"}}>
         </button>
 
-        <div className={"p-1 border-black border-4 bg-orange-100 text-2xl"}
-             style={{gridArea: "9 / 5 / span 3 / span 36"}}>Исходный текст записки 1
-        </div>
-        <input className={"p-1 border-black border-4 bg-orange-100"} placeholder={"ВВЕСТИ ОТВЕТ"}
+        <input className={"p-1 border-black border-4 bg-orange-100"} placeholder={"Переставленные биты"}
                style={{gridArea: "13 / 5 / span 2 / span 32"}} onChange={(e) => {
           setAnswer1(e.currentTarget.value)
         }}>
@@ -114,15 +111,15 @@ export default function Level() {
         <button
           className={`${a1Debounce.length === 0 ? "border-black" : isCorrect1 ? "border-green-700" : "border-red-800"} text-[30px] border-4 bg-orange-300`}
           style={{gridArea: "13 / 37 / span 2 / span 4"}}>
-
         </button>
-        <Link to={"/hint"} state={{ background: location, hints: hints }} className={"hover_size border-4 text-3xl border-black bg-orange-200 hover:border-green-700"}
-                style={{gridArea: "32 / 5 / span 3 / span 10"}}>ПОДСКАЗКА
+        <Link to={"/hint"} state={{background: location, hints: hints}}
+              className={"hover_size border-4 text-3xl border-black bg-orange-200 hover:border-green-700"}
+              style={{gridArea: "32 / 5 / span 3 / span 10"}}>ПОДСКАЗКА
         </Link>
 
         {isCorrect1 && isCorrect2 && isCorrect3 && <button onClick={() => {
-          axios.post(`${BACKEND_IP}/api/complete_level/2`, {token: localStorage.getItem('token')}).then(() => {
-            navigate('/home')
+          axios.post(`${BACKEND_IP}/api/complete_level/12`, {token: localStorage.getItem('token')}).then(() => {
+            navigate('/levels/1/13')
           })
         }} className={"hover_size border-4 text-3xl border-black bg-orange-200 hover:border-green-700"}
                                              style={{gridArea: "32 / 31 / span 3 / span 10"}}>ЗАВЕРШИТЬ
@@ -134,7 +131,7 @@ export default function Level() {
         }}
                 style={{gridArea: "32 / 50 / span 3 / span 3", backgroundImage: `url(${magnifierIconImg})`}}>
         </button>
-        <Link to={"/mail/mail/2"} className={"hover_size"} onClick={() => {
+        <Link to={"/mail/mail/3"} className={"hover_size"} onClick={() => {
         }}
               style={{gridArea: "28 / 50 / span 3 / span 3", backgroundImage: `url(${mailIcon})`}}>
         </Link>

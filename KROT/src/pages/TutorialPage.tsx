@@ -11,10 +11,11 @@ import Arrow1 from "@assets/Arrow 1.png"
 import Arrow2 from "@assets/Arrow 2.png"
 import М from "@assets/М.png"
 import Ж from "@assets/Ж.png"
-import ХЗ from "@assets/hz_funny.png"
+import ХЗ from "@assets/incognito 1.png"
 import {Dispatch, ReactNode, SetStateAction, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {BACKEND_IP} from "../main.tsx";
 
 
 function StepTemplate({step, setStep, children}: {step: number, setStep: Dispatch<SetStateAction<number>>, children?: ReactNode}) {
@@ -43,7 +44,7 @@ function StepTemplate({step, setStep, children}: {step: number, setStep: Dispatc
           </button> : null}
         {step === 10 ?
           <button className={"border border-black hover_size z-10 bg-orange-200"} onClick={() => {
-            axios.post('http://krot-game.ru/api/complete_tutorial', {
+            axios.post(`${BACKEND_IP}/api/complete_tutorial`, {
               token: localStorage.getItem('token')
             }).then((resp) => {
               localStorage.setItem('user', JSON.stringify(resp.data.user))
@@ -153,7 +154,7 @@ export default function TutorialPage() {
     </StepTemplate>,
   ]
   return (
-    <div className={"flex justify-center pt-10"}>
+    <div className={"flex justify-center -mt-10 pt-10"}>
       {(step < 3 || step === 10) && <Window w={1060} h={740.5} windowClasses={"mt-10 flex flex-wrap content-center justify-center"}
                            backgroundImg={backgroundImg}/>}
       {(step >= 3 && step !== 10) && <HomePage/>}

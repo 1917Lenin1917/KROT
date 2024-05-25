@@ -39,14 +39,6 @@ function StepTemplate({step, setStep, children, ЧубзикПик = Чубзи�
           </button> : null}
         {step === 4 ?
           <button className={"border border-black hover_size z-10 bg-orange-200"} onClick={() => {
-            // axios.post('http://krot-game.ru/api/complete_dialog', {
-            //   token: localStorage.getItem('token')
-            // }).then((resp) => {
-            //   localStorage.setItem('user', JSON.stringify(resp.data.user))
-            //   navigate('/home')
-            // }).catch((err) => {
-            //   console.log(err)
-            // })
             navigate("/home")
           }} style={{gridArea: "32 / 20 / span 3 / span 12" }}> Завершить диалог!
           </button> : null}
@@ -92,7 +84,7 @@ export default function DialogPage() {
     </StepTemplate>,
   ]
   return (
-    <div className={"flex justify-center pt-10"}>
+    <div className={"flex justify-center -mt-10 pt-10"}>
       {(step < 3) && <Window w={1060} h={740.5} windowClasses={"mt-10 flex flex-wrap content-center justify-center"}
                            backgroundImg={backgroundImg}/>}
       {(step >= 3) && <HomePage/>}

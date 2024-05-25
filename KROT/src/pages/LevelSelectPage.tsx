@@ -4,9 +4,25 @@ import {ElementRef, ReactNode, RefObject, useRef} from "react";
 import {Link, Outlet, useNavigate, useParams} from "react-router-dom";
 import emergencyExitGreenImg from "@assets/EmergyncyExitGreen.png";
 
-function BaseForm({children}: { children?: ReactNode }) {
+const f = (fname: string) => {
+  if (fname === '3') return '3.1'
+  if (fname === '4') return '3.2'
+  if (fname === '5') return '3.3'
+
+  if (fname === '10') return '7.1'
+  if (fname === '11') return '7.2'
+  if (fname === '11') return '7.2'
+  if (fname === '12') return '7.3'
+  if (fname === '13') return '7.4'
+  if (fname === '14') return '7.5'
+  if (fname === '15') return '7.6'
+  if (Number(fname) < 3) return fname
+  return Number(fname) - 2
+}
+
+function BaseForm({chapterSelect, children}: { chapterSelect: boolean, children?: ReactNode }) {
   return (
-    <form style={{width: "619.5px", height: "422px", gridTemplateRows: "140px auto"}} className={"grid items-center"}>
+    <form style={{width: "619.5px", height: "422px", gridTemplateRows: "140px auto auto"}} className={"grid items-center"}>
       <svg className={"absolute z-0"} width="619.5" height="422" viewBox="0 0 1239 844" fill="none"
            xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_i_5_91)">
@@ -29,7 +45,7 @@ function BaseForm({children}: { children?: ReactNode }) {
         </defs>
 
       </svg>
-      <div className={"flex z-10 text-center border-black border-4 text-5xl h-20 bg-orange-100 justify-center"}><span
+      <div style={{ gridColumn: chapterSelect ? "span 1" : "span 3"}} className={"flex z-10 text-center border-black border-4 text-5xl h-20 bg-orange-100 justify-center"}><span
         className={"my-auto"}>Прогресс</span></div>
       {children}
     </form>
@@ -71,14 +87,20 @@ export function LevelSelectFunction() {
     <>
       <Outlet/>
       {level ? null :
-        <BaseForm>
-          {Object.keys(levels).map((lvl, key) => {
+        <BaseForm chapterSelect={false}>
+          {Object.keys(levels).sort((a, b) => {
+            const [p1, f1] = a.replace('../levels/', '').replace('.tsx', '').split('/')
+            const [p2, f2] = b.replace('../levels/', '').replace('.tsx', '').split('/')
+            return Number(f1) - Number(f2)
+          }).map((lvl, key) => {
             const [p, filename] = lvl.replace('../levels/', '').replace('.tsx', '').split('/')
-            // console.log(p, filename, lvl, levels)
+            const levelLabel = f(filename)
             if (p !== chapter) return null
-            return <Link key={key} className={"z-10 justify-self-center"} to={`/levels/${p}/${filename > currentLevel ? '' : filename}`}>
+            const row = Math.floor(key / 5) === 0 ? key+2 : Math.floor(key / 5) == 1 ? key+2 - 5 : key+2 - 10
+            const col = Math.floor(key / 5) === 0 ? "1" : Math.floor(key / 5) == 1 ? "2" : "3"
+            return <Link style={{ gridRow: row, gridColumn: col }} key={key} className={"z-10 justify-self-center"} to={`/levels/${p}/${filename > currentLevel ? '' : filename}`}>
               <button type={"submit"}
-                      className={`z-10 border-black justify-self-center border-4 h-20 text-4xl w-[450px] ${filename > currentLevel ? 'hover:border-gray-600 cursor-not-allowed bg-gray-400' : filename < currentLevel ? 'bg-green-600' : 'hover:border-green-700 bg-orange-100'}`}>{filename}</button>
+                      className={`z-10 border-black justify-self-center border-4 h-15 text-4xl w-[180px] ${filename > currentLevel ? 'hover:border-gray-600 cursor-not-allowed bg-gray-400' : filename < currentLevel ? 'bg-green-600' : 'hover:border-green-700 bg-orange-100'}`}>{levelLabel}</button>
             </Link>
           })}
         </BaseForm>
@@ -89,7 +111,7 @@ export function LevelSelectFunction() {
 
 export function ChapterSelectOutlet() {
   return (
-    <BaseForm>
+    <BaseForm chapterSelect={true}>
       <Link className={"z-10 justify-self-center"} to={"/levels/1/"}>
         <button type={"submit"}
                 className={"z-10 border-black justify-self-center border-4 h-20 text-4xl bg-orange-100 w-[450px] hover:border-green-700"}>Глава

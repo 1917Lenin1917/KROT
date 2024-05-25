@@ -38,6 +38,7 @@ export default function HomePage() {
           <Link to={"/mail"} className={"hover_size grid"} style={{gridArea: "4 / 50 / span 3 / span 3", backgroundImage: `url(${mailIconImg})`}}>
             { user && user.current_chapter === 1 && user.current_level === 1 && !localStorage.getItem('read_1_1') && <img className={"w-[40px] h-[40px] justify-self-center self-center"} src={dangerIcon}></img> }
             { user && user.current_chapter === 1 && user.current_level === 2 && !localStorage.getItem('read_1_2') && <img className={"w-[40px] h-[40px] justify-self-center self-center"} src={dangerIcon}></img> }
+            { user && user.current_chapter === 1 && user.current_level === 3 && !localStorage.getItem('read_1_3') && <img className={"w-[40px] h-[40px] justify-self-center self-center"} src={dangerIcon}></img> }
           </Link>
 
           <Link to={"/help"} className={"hover_size"} style={{gridArea: "32 / 4 / span 3 / span 3", backgroundImage: `url(${magnifierIconImg})`}}>

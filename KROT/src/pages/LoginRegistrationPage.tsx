@@ -4,6 +4,7 @@ import Window from "@components/Window.tsx";
 import {ReactNode, useEffect, useState} from "react";
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
+import {BACKEND_IP} from "../main.tsx";
 
 function BaseForm({ children }: {children?: ReactNode}) {
 return (
@@ -92,7 +93,7 @@ export function LoginPage() {
                    e.currentTarget.form!.reportValidity()
                    return
                  }
-                 axios.post('http://krot-game.ru/api/login', {
+                 axios.post(`${BACKEND_IP}/api/login`, {
                    username: username,
                    password: password,
                  }, {method: "post"})
@@ -143,7 +144,7 @@ export function RegistrationPage() {
                   <select required onChange={(e) => { setGender(e.currentTarget.value) }} className={"z-10 opacity-65 h-12 w-2/3 justify-self-center border-black border-4"}>
                     <option>М</option>
                     <option>Ж</option>
-                    <option>ХЗ</option>
+                    <option>Н/Д</option>
                   </select>
                   <input type={"password"} required onChange={(e) => { setPassword(e.currentTarget.value) }} placeholder={"Пароль"} className={"z-10 opacity-65 h-12 w-2/3 justify-self-center border-black border-4"}></input>
                   <div className={"mx-auto z-10 text-red-800"}>{error}</div>
@@ -155,10 +156,10 @@ export function RegistrationPage() {
                         e.currentTarget.form!.reportValidity()
                         return
                       }
-                      axios.post('http://krot-game.ru/api/register', {
+                      axios.post(`${BACKEND_IP}/api/register`, {
                         username: username,
                         password: password,
-                        gender: gender
+                        gender: gender.replace('Н/Д', 'ХЗ')
                       }, {method: "post"})
                       .then((resp) => {
                         console.log(resp)

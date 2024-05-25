@@ -3,13 +3,15 @@ import Router from "./routes.tsx";
 import {BrowserRouter} from "react-router-dom";
 import {createContext, useEffect, useState} from "react";
 import axios from "axios";
+import {BACKEND_IP} from "./main.tsx";
 
 export type User = {
     username: string,
     current_level: number,
     current_chapter: number,
     gender: string,
-    first_login: number
+    first_login: number,
+    colored_agents: number[]
 }
 
 export const UserContext = createContext<{
@@ -20,7 +22,7 @@ function App() {
   const [user, setUser] = useState<User | null>(lsUser ? JSON.parse(lsUser) : null)
   const location = window.location
   useEffect(() => {
-     axios.post('http://krot-game.ru/api/current_user', {
+     axios.post(`${BACKEND_IP}/api/current_user`, {
           token: localStorage.getItem('token')
         }).then(response => {
           setUser(response.data.user)
@@ -37,7 +39,7 @@ function App() {
           }
         })
     const id = setInterval(() => {
-        axios.post('http://krot-game.ru/api/current_user', {
+        axios.post(`${BACKEND_IP}/api/current_user`, {
           token: localStorage.getItem('token')
         }).then(response => {
           setUser(response.data.user)
@@ -48,7 +50,7 @@ function App() {
             window.location.href = '/login'
           }
         })
-    }, 1000)
+    }, 5000)
 
     return () => { clearInterval(id) }
   }, [])
